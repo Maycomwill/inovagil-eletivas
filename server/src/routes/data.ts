@@ -21,7 +21,7 @@ export async function ExportData(app: FastifyInstance) {
 
     const { ano, secret } = bodySchema.parse(request.body);
 
-    if (secret !== "Admin-ETE-Gil-Rodrigues-CdT") {
+    if (secret !== process.env.SECRET) {
       return reply.status(401).send("Usuário não autenticado");
     }
     const turmas = await prisma.classes.findMany({
@@ -95,7 +95,7 @@ export async function ExportData(app: FastifyInstance) {
 
     const { secret } = bodySchema.parse(req.body);
 
-    if (secret !== "Admin-ETE-Gil-Rodrigues-CdT") {
+    if (secret !== process.env.SECRET) {
       return res.status(400).send({ message: "Código admin inválido" });
     }
     try {

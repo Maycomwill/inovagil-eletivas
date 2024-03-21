@@ -48,7 +48,7 @@ Caso a disciplina não tenha vagas disponíveis, um erro é disparado alertando 
 
 ### Área secretaria
 
-A homepage da área administrativa apresentará um forulário inicial, para exportação dos dados das turmas baseados nos anos.
+A homepage da área administrativa apresentará um formulário inicial, para exportação dos dados das turmas baseados nos anos.
 
 ![admin_screen](https://raw.githubusercontent.com/Maycomwill/inovagil-eletivas/main/public/screenshots/admin_screen.png)
 
@@ -76,6 +76,7 @@ Ao seleciona o botão **Cadastrar base de alunos**, um modal será habilitado, c
 -   serie
 -   curso
 ```
+
 ![csv_example](https://github.com/Maycomwill/inovagil-eletivas/assets/74081416/9cae0904-ce78-4acb-a9aa-143d8778a347)
 
 ![students_register](https://raw.githubusercontent.com/Maycomwill/inovagil-eletivas/main/public/screenshots/students_register.png)
@@ -90,19 +91,98 @@ Ao seleciona o botão **Zerar banco de dados**, um modal será habilitado, para 
 > [!NOTE]
 > Todas as ações executadas na área da secretaria é necessário digitar o código de admin.
 
+## 📝 Requisitos
+
+- [Node](https://nodejs.org/en) v18.18.0 ou superior
+- [NPM](https://nodejs.org/en) v10.2.4 ou superior
+- [PostgreSQL](https://www.postgresql.org/download) 16 ou superior
+
+## 🔨 Instalação
+
+Para instalar o sistema, clone o repositório com o comando:
+
+```shell
+git clone https://github.com/Maycomwill/inovagil-eletivas.git
+```
+
+A estrutura do projeto contem duas pastas, **server** e **web**.
+
+---
+
+### Server
+
+Acesse a pasta server e instale as dependências necessárias com o comando:
+
+```shell
+npm install
+```
+
+Crie um arquivo na raiz da pastar **server** chamando **.env**, nele crie quatro variáveis ambientes que serão utilizadas pelo sistema:
+
+- DATABASE_URL="postgresql://**postgresuser**:**postgrespassword**@**host**:5432/**inovagil**?schema=public"
+- JWTSECRET="**ELETIVAS_ETE_GIL_RODRIGUES_JWT_SECRET**"
+- PORT="**3333**"
+- SECRET="**Admin-ETE-Gil-Rodrigues-CdT**"
+
+Todos os campos em negrito podem ser substituidos pelos valores que você desejar.
+
+Baixe e instale o PostgreSQL seguindo os passos descritos no [site](https://www.postgresql.org/download/) da tecnologia, de acordo com o seu sistema operacional.
+
+Crie um banco de dados no postgres, anote o **user**, **password**, **host** e **db_name** e substitua esses valores na chave DATABASE_URL no **.env**.
+
+Após a configuração inicial, rode o comando:
+
+```shell
+npm run dev
+```
+
+O servidor irá iniciar e a url de acesso a api aparecerá em log no console.
+
+---
+
+### WEB
+
+Acesse a pasta **web** e instale as dependências necessárias utilizando o comando:
+
+```shell
+npm install
+```
+
+Se estiver utilizando um serviço online para hospedar tanto o servidor quanto o front-end, lembre-se de alterar o arquivo **axios.ts** localizado em "web/src/lib/axios.ts"
+
+```javascript
+baseURL: "http://localhost:3333",
+```
+
+Altere a URL indicada pela URL do seu serviço onde está hospedado o back-end.
+
+Ex:
+
+```javascript
+baseURL: "https://inovagil-eletivas.onrender.com";
+```
+
+Para ligar o servidor do front-end utilize o comando:
+
+```shell
+npm run dev
+```
+
+Pronto, ambos os serviços estão devidamente instalados e ligados.
+
+---
+
 ## ✔ Conclusão
 
 Os facilitadores e futuros programadores, após demonstrarem suas habilidades e criatividade no decorrer do desenvolvimento do projeto, possibilitou a funcionalidade aos estudantes integrados a se encaixarem nas suas devidas eletivas de escolha, obtendo sucesso e aprovação pelos usuários.
 
 ## &copy; Créditos
 
-```text
-Maycom Willams
-Lucas Gomes
-Nathália Sousa
-Eduarda Albuquerque
-Edilson Bernardo
-```
+[Maycom Willams](https://github.com/Maycomwill)💚
+[Lucas Gomes](https://github.com/lucasgm18)💎
+[Nathália Sousa](https://github.com/Nathaliaraphaella)💜
+[Eduarda Albuquerque](https://github.com/duda-http)🌙
+[Edilson Bernardo](https://github.com/ebernardo98)😉
 
 ## 💻 Tecnologias
 

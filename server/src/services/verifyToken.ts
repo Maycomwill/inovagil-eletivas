@@ -12,7 +12,7 @@ export async function validateToken(token: string) {
     token,
     String(process.env.JSON_WEB_TOKEN_SECRET)
   ) as JwtPayload;
-  const user = await prisma.students.findUnique({
+  const user = await prisma.users.findUnique({
     where: {
       matricula: decodedToken.matricula,
       AND: {

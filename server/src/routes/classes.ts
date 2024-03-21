@@ -15,14 +15,14 @@ export async function ClassesRoutes(app: FastifyInstance) {
       secret: z
         .string()
         .min(1, "Você precisar possuir o código admin para criar uma eletiva"),
-    });
+    });process.env.SECRET
 
     const { nome, professor, serie, diaDaSemana, vagas, secret } =
       bodySchema.parse(req.body);
 
     console.log(nome, professor, serie, diaDaSemana, vagas);
 
-    if (secret === "Admin-ETE-Gil-Rodrigues-CdT") {
+    if (secret === process.env.SECRET) {
       try {
         const eletiva = await prisma.classes.create({
           data: {

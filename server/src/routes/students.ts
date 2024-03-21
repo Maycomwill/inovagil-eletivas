@@ -21,7 +21,7 @@ export async function StudentsRoutes(app: FastifyInstance) {
     if (!data) {
       return res.status(400).send({ message: "Base de dados inválida" });
     }
-    if (secret === "Admin-ETE-Gil-Rodrigues-CdT") {
+    if (secret === process.env.SECRET) {
       try {
         const students = await prisma.users.createMany({
           data,
