@@ -39,7 +39,7 @@ Ao clicar em uma das turmas, um modal será aberto solicitando a confirmação d
 
 ![modal_register](https://raw.githubusercontent.com/Maycomwill/inovagil-eletivas/main/public/screenshots/modal_register.png)
 
-Selecionando a opção **sim**, se a turma tiver vagas disponveís e o aluno estiver apto a matricula, o aluno será matriculado na disciplina correspondente, atualizando a página e demonstrando agora que ele está matriculado naquela turma, e as vagas da disciplina serão atualizadas.
+Selecionando a opção **sim**, se a turma tiver vagas disponíveis e o aluno estiver apto a matricula, o aluno será matriculado na disciplina correspondente, atualizando a página e demonstrando agora que ele está matriculado naquela turma, e as vagas da disciplina serão atualizadas.
 Caso a disciplina não tenha vagas disponíveis, um erro é disparado alertando ao usuário que não há vagas para aquela disciplina, ele deve então, selecionar uma outra disciplina.
 
 ![homepage_registered](https://raw.githubusercontent.com/Maycomwill/inovagil-eletivas/main/public/screenshots/homepage_registered.png)
