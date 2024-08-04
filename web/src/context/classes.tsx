@@ -37,6 +37,14 @@ export interface ClassesContextProps {
     diaDaSemana: string;
     secret: string;
   }) => void;
+
+  registerEletivaArray: ({
+    data,
+    secret,
+  }: {
+    data: ClassesRegisterProps[];
+    secret: string;
+  }) => void;
   visible: boolean | undefined;
   isLoading: boolean;
 }
@@ -53,6 +61,14 @@ export interface ClassesProps {
     classesId: string;
     studentId: string;
   }[];
+}
+
+export interface ClassesRegisterProps {
+  nome: string;
+  professor: string;
+  serie: string;
+  vagas: number;
+  diaDaSemana: "TERCA" | "QUINTA";
 }
 
 export const ClassesContext = createContext({} as ClassesContextProps);
@@ -155,6 +171,36 @@ export function ClassesContextProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  async function registerEletivaArray({
+    data,
+    secret,
+  }: {
+    data: ClassesRegisterProps[];
+    secret: string;
+  }) {
+    setIsLoading(true);
+    try {
+      const eletiva = await api.post("/eletiva/file", {
+        data,
+        secret,
+      });
+
+      if (eletiva) {
+        return  setTimeout(() => {
+          setIsLoading(false);
+          toast.success(eletiva.data.message);
+        }, 1000);
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          setIsLoading(false);
+          return toast.error(error.response.data.message);
+        }
+      }
+    }
+  }
+
   async function exportData(ano: string, secret: string) {
     setVisible(undefined);
     try {
@@ -181,6 +227,7 @@ export function ClassesContextProvider({ children }: { children: ReactNode }) {
         visible,
         classes,
         turmaCadastrada,
+        registerEletivaArray,
         getClassesBySerie,
         registerEletiva,
         registerClasses,

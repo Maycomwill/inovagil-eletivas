@@ -7,6 +7,7 @@ import clsx from "clsx";
 import FormCadastroEletiva from "../components/Dialogs/FormCadastroEletiva";
 import FormSubmitStudentsList from "../components/Dialogs/FormSubmitStudentsList";
 import FormToTruncateDatabase from "../components/Dialogs/FormToTruncateDatabase";
+import FormSubmitClassesList from "../components/Dialogs/FormSubmitClassesList";
 
 function Admin() {
   const [value, setValue] = useState("1");
@@ -80,9 +81,12 @@ function Admin() {
           <Loading />
         )}
 
-        <div className="w-1/2 flex flex-col md:flex-row items-center justify-center md:space-x-2 my-4 space-y-4 md:space-y-0">
+        <div className="w-1/2 flex flex-col md:grid md:grid-cols-2 items-center justify-center my-4 md:gap-4 md:place-items-center">
           <div className="w-full">
             <FormCadastroEletiva />
+          </div>
+          <div className="w-full">
+            <FormSubmitClassesList />
           </div>
           <div className="w-full">
             <FormSubmitStudentsList />

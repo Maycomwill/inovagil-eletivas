@@ -16,28 +16,35 @@ export async function StudentsRoutes(app: FastifyInstance) {
         .array(),
       secret: z.string().min(1, "O código admin deve ser preenchido"),
     });
-    const { data, secret } = bodySchema.parse(req.body);
-
-    if (!data) {
-      return res.status(400).send({ message: "Base de dados inválida" });
-    }
-    if (secret === process.env.SECRET) {
-      try {
-        const students = await prisma.users.createMany({
-          data,
+    try {
+      const { data, secret } = bodySchema.parse(req.body);
+      if (!data) {
+        return res.status(400).send({ message: "Base de dados inválida" });
+      }
+      if (secret !== process.env.SECRET) {
+        return res.status(400).send({
+          message: "Código admin inválido",
         });
+      }
 
-        return res
-          .status(200)
-          .send({ message: "Base de dados inserida no banco de dados" });
-      } catch (error) {
-        if (error instanceof Error) {
-          return res.status(500).send({ message: error.message });
-        }
+      const students = await prisma.users.createMany({
+        data,
+      });
+
+      if (!students) {
+        return res.status(400).send({ message: "Base de dados inválida" });
+      }
+      console.log(students);
+      return res
+        .status(201)
+        .send({ message: "Base de alunos cadastrada com sucesso" });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(500).send({
+          message: error.message,
+          data: error,
+        });
       }
     }
-    return res.status(400).send({
-      message: "Código admin inválido",
-    });
   });
 }
