@@ -4,11 +4,11 @@ import { parse } from "csv-parse";
 export const alunos = readCsvFile();
 
 function readCsvFile() {
-  const alunos = [];
+  const alunos: any[] = [];
   fs.createReadStream("./src/dados/alunos.csv")
     .pipe(
       parse({
-        delimiter: ",",
+        delimiter: ";",
         columns: true,
         ltrim: true,
       })

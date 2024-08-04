@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_DB: eletivas
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  wait-for-postgres:
+    image: busybox
+    container_name: wait-for-postgres
+    depends_on:
+      - postgres
+    entrypoint: ["sh", "-c", "until nc -z postgres 5432; do echo 'Waiting for Postgres...'; sleep 1; done; echo 'Postgres is up!'"]
+
+  server:
+    build: ./server
+    container_name: server
+    environment:
+      DATABASE_URL: "postgresql://postgres:1234@postgres:5432/eletivas?schema=public"
+      JWTSECRET: "ELETIVAS_ETE_GIL_RODRIGUES_JWT_SECRET"
+      PORT: "3333"
+      SECRET: "Admin-ETE-Gil-Rodrigues-CdT"
+    ports:
+      - "3333:3333"
+    depends_on:
+      - postgres
+    restart: always
+    command: sh -c "until pg_isready -h postgres -p 5432; do echo 'Waiting for PostgreSQL...'; sleep 2; done && npm run migrate && npm run build && npm run start"
+
+  web:
+    build: ./web
+    container_name: web
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:

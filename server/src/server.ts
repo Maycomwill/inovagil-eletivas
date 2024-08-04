@@ -5,8 +5,11 @@ import cors from "@fastify/cors";
 import { ExportData } from "./routes/data";
 import { ClassesRoutes } from "./routes/classes";
 import { StudentsRoutes } from "./routes/students";
+import { config } from "dotenv";
 
 const app = fastify();
+
+config();
 
 app.register(cors, {
   origin: "*",
@@ -16,7 +19,6 @@ app.register(cors, {
 app.register(EletivasRoutes, {
   prefix: "/class",
 });
-
 app.register(ClassesRoutes, {
   prefix: "/eletiva",
 });
