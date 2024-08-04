@@ -15,7 +15,8 @@ export async function ClassesRoutes(app: FastifyInstance) {
       secret: z
         .string()
         .min(1, "Você precisar possuir o código admin para criar uma eletiva"),
-    });process.env.SECRET
+    });
+    process.env.SECRET;
 
     const { nome, professor, serie, diaDaSemana, vagas, secret } =
       bodySchema.parse(req.body);
@@ -35,7 +36,7 @@ export async function ClassesRoutes(app: FastifyInstance) {
         });
 
         if (eletiva) {
-          return res.status(200).send("Eletiva cadastrada com sucesso");
+          return res.status(201).send("Eletiva cadastrada com sucesso");
         }
       } catch (error) {
         if (error instanceof Error) {
@@ -44,5 +45,52 @@ export async function ClassesRoutes(app: FastifyInstance) {
       }
     }
     return res.status(400).send({ message: "Código admin inválido" });
+  });
+
+  app.post("/file", async (req, res) => {
+    const schema = z.object({
+      data: z
+        .object({
+          nome: z.string().min(1, "A eletiva precisa ter um nome"),
+          professor: z
+            .string()
+            .min(1, "A eletiva precisa ter um professor cadastrado"),
+          serie: z.string().min(1).max(3),
+          diaDaSemana: z.enum([
+            "SEGUNDA",
+            "TERCA",
+            "QUARTA",
+            "QUINTA",
+            "SEXTA",
+          ]),
+          vagas: z.number().min(1, "A eletiva precisar ter pelo menos 1 vaga"),
+        })
+        .array(),
+      secret: z
+        .string()
+        .min(1, "Você precisar possuir o código admin para criar uma eletiva"),
+    });
+
+    try {
+      const { data, secret } = schema.parse(req.body);
+      if (!data) {
+        return res.status(400).send({ message: "Base de dados inválida" });
+      }
+      if (secret !== process.env.SECRET) {
+        return res.status(400).send({ message: "Código admin inválido" });
+      }
+
+      const classes = await prisma.classes.createMany({
+        data,
+      });
+      console.log(classes);
+      return res
+        .status(201)
+        .send({ message: "Eletivas criadas com sucesso", data: classes });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(500).send({ message: error.message, data: error });
+      }
+    }
   });
 }
