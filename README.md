@@ -81,6 +81,16 @@ Ao seleciona o botão **Cadastrar base de alunos**, um modal será habilitado, c
 
 ![students_register](https://raw.githubusercontent.com/Maycomwill/inovagil-eletivas/main/public/screenshots/students_register.png)
 
+Também é possível cadastrar uma base de eletivas via arquivo csv, assim como a base de dados dos alunos. O seguinte padrão deve ser seguido para cadastramento.
+
+```text
+-   nome
+-   professor
+-   serie
+-   diaDaSemana
+-   vagas
+```
+
 Ao seleciona o botão **Zerar banco de dados**, um modal será habilitado, para a confirmação da ação.
 
 > [!CAUTION]
@@ -96,6 +106,7 @@ Ao seleciona o botão **Zerar banco de dados**, um modal será habilitado, para 
 - [Node](https://nodejs.org/en) v18.18.0 ou superior
 - [NPM](https://nodejs.org/en) v10.2.4 ou superior
 - [PostgreSQL](https://www.postgresql.org/download) 16 ou superior
+- [Docker](https://www.docker.com/products/docker-desktop/) v4.32 ou superior
 
 ## 🔨 Instalação
 
@@ -119,24 +130,15 @@ npm install
 
 Crie um arquivo na raiz da pastar **server** chamando **.env**, nele crie quatro variáveis ambientes que serão utilizadas pelo sistema:
 
-- DATABASE_URL="postgresql://**postgresuser**:**postgrespassword**@**host**:5432/**inovagil**?schema=public"
-- JWTSECRET="**ELETIVAS_ETE_GIL_RODRIGUES_JWT_SECRET**"
-- PORT="**3333**"
-- SECRET="**Admin-ETE-Gil-Rodrigues-CdT**"
+- DATABASE_URL="postgresql://postgres:1234@postgres:5432/eletivas?schema=public"
+
+- JWTSECRET="ELETIVAS_ETE_GIL_RODRIGUES_JWT_SECRET"
+- PORT="3333"
+- SECRET="Admin-ETE-Gil-Rodrigues-CdT"
 
 Todos os campos em negrito podem ser substituidos pelos valores que você desejar.
 
 Baixe e instale o PostgreSQL seguindo os passos descritos no [site](https://www.postgresql.org/download/) da tecnologia, de acordo com o seu sistema operacional.
-
-Crie um banco de dados no postgres, anote o **user**, **password**, **host** e **db_name** e substitua esses valores na chave DATABASE_URL no **.env**.
-
-Após a configuração inicial, rode o comando:
-
-```shell
-npm run dev
-```
-
-O servidor irá iniciar e a url de acesso a api aparecerá em log no console.
 
 ---
 
@@ -162,13 +164,21 @@ Ex:
 baseURL: "https://inovagil-eletivas.onrender.com";
 ```
 
-Para ligar o servidor do front-end utilize o comando:
+Pronto, ambos os serviços estão devidamente configurados
+
+### Docker
+
+Entre no diretório raiz do projeto, e execute o comando:
 
 ```shell
-npm run dev
+docker-compose up --build
 ```
 
-Pronto, ambos os serviços estão devidamente instalados e ligados.
+Todos os sevidos devem ligar corretamente disponíveis nas portas:
+
+- **3000**: Servidor web
+- **3333**: Servidor backend
+- **5432**: Banco de dados
 
 ---
 
